@@ -40,3 +40,12 @@ run起来！
 python3 main.py
 ```
 
+#### 请我喝咖啡！
+
+##### WeChat Pay:
+
+<img src="https://facebady.oss-cn-shanghai.aliyuncs.com/WeChat.png" style="zoom:33%;" />
+
+##### AliPay:
+
+<img src="https://facebady.oss-cn-shanghai.aliyuncs.com/Alipay.png" style="zoom: 31%;" />
