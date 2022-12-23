@@ -52,8 +52,8 @@ python3 main.py
 
 ##### WeChat Pay:
 
-<img src="https://facebady.oss-cn-shanghai.aliyuncs.com/WeChat.png" style="zoom:33%;" />
+![](https://facebady.oss-cn-shanghai.aliyuncs.com/WeChat.png)
 
 ##### AliPay:
 
-<img src="https://facebady.oss-cn-shanghai.aliyuncs.com/Alipay.png" style="zoom: 31%;" />
+![](https://facebady.oss-cn-shanghai.aliyuncs.com/Alipay.png)
