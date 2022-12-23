@@ -33,6 +33,7 @@ get_homework = requests.request(
     'https://a.welife001.com/info/getParent?type=-1&members='+member_id+'&page=0&size=10&date=-1&hasMore=true&isRecent=true',
     headers=headers
 )
+print(get_id.json())
 print('你有'+str(len(get_homework.json()["data"]))+'项作业未完成:')
 for subject_num in range(len(get_homework.json()["data"])):
     print(get_homework.json()["data"][subject_num]["title"])
@@ -69,10 +70,11 @@ for i in range(len(url.json()["data"]["notify"]["attach"]["subjects"])):
     try:
         for a in range(4):
             if url.json()["data"]["notify"]["attach"]["subjects"][i]["details"][a]["right"] == 'y':
-                print('第' + str(i + 1) + '选' + abcd[a])
+                print('第' + str(i + 1) + '题选' + abcd[a])
     except IndexError:
-        print('第'+str(i+1)+'是大题，自己写！')
+        print('第'+str(i+1)+'题是大题，自己写！')
 
+input('请按任意键退出...')
 print('-----END-----')
 # print(len(url.json()["data"]["notify"]["attach"]["subjects"]))
 # print(url.json()["data"]["notify"]["attach"]["subjects"][11]["details"][2]["right"])
