@@ -35,7 +35,7 @@ get_homework = requests.request(
 )
 print('你有'+str(len(get_homework.json()["data"]))+'项作业未完成:')
 for subject_num in range(len(get_homework.json()["data"])):
-    print(get_homework.json()["data"][subject_num-1]["title"])
+    print(get_homework.json()["data"][subject_num]["title"])
 choose = input('请输入你要抄的作业：[1-'+str(len(get_homework.json()["data"]))+']：')
 try:
     homework_id = get_homework.json()["data"][int(choose)-1]["_id"]
