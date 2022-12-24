@@ -77,6 +77,42 @@ url = requests.request(
     headers=headers
 )
 
+steal_homework = requests.request(
+    'post',
+    'https://a.welife001.com/applet/notify/check4teacherList',
+    headers=headers,
+    data='''
+    {
+        "_id": "'''+homework_id+'''",
+        "sortType": "shijiandaoxu",
+        "selectType": "quanbu",
+        "page": 0,
+        "size": 10,
+        "last_accId": "",
+        "isNew": "nextId",
+        "extra": 1
+    }
+    '''
+)
+
+
+'''
+curl 'https://a.welife001.com/applet/notify/check4teacherList' \
+-X POST \
+-H 'Host: a.welife001.com' \
+-H 'Accept: */*' \
+-H 'Accept-Language: zh-CN,zh-Hans;q=0.9' \
+-H 'Connection: keep-alive' \
+-H 'Referer: https://servicewechat.com/wx23d8d7ea22039466/1802/page-frame.html' \
+-H 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac' \
+-H 'Content-Length: 144' \
+-H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcGVuaWQiOiJvV1JrVTBkandHdDdzcmEyRXkySzNueG1Hb0VVIiwidW5pb25pZCI6Im90Z3pwdjU2T3pBcUNXVGpfSE9qTklVY09uNGciLCJwbGF0Zm9ybSI6Im1pbmkiLCJleHAiOjE2NzY3OTI4NjMwMjQsImlhdCI6MTY3MTYwODg2M30.x-afJTAo6hfaNm5x6HGDQyDiNK_AtnMu9FQ6rC-sOGw' \
+-H 'imprint: oWRkU0djwGt7sra2Ey2K3nxmGoEU' \
+-H 'Content-Type: application/json' \
+-d '{"_id":"63a2cb999d775ec3c7d2f773","sortType":"shijiandaoxu","selectType":"quanbu","page":0,"size":10,"last_accId":"","isNew":"nextId","extra":1}' \
+--proxy http://localhost:9090
+'''
+
 abcd = ['A', 'B', 'C', 'D']
 
 for i in range(len(url.json()["data"]["notify"]["attach"]["subjects"])):
@@ -85,10 +121,15 @@ for i in range(len(url.json()["data"]["notify"]["attach"]["subjects"])):
             if url.json()["data"]["notify"]["attach"]["subjects"][i]["details"][a]["right"] == 'y':
                 print('第' + str(i + 1) + '题选' + abcd[a])
     except IndexError:
-        print('第'+str(i+1)+'题是大题，自己写！')
+        for good_baby in range(len(steal_homework.json()['data'])):
+            print(steal_homework.json()['data'][good_baby]['name'])
+        who_homework = input('请输入你要抄谁的作业[1-'+str(len(steal_homework.json()['data']))+']:')
+        for photo_list in range(len(steal_homework.json()['data'][int(who_homework)-1]['attach']['subjects'][i]['answers'])):
+            print('https://img.banjixiaoguanjia.com/'+steal_homework.json()['data'][int(who_homework) - 1]['attach']['subjects'][i]['answers'][photo_list])
+        # print(steal_homework.json()['data'][int(who_homework)-1]['attach']['subjects'][i]['answers'])
+        print('第'+str(i+1)+'题是大题，看链接！')
 # 获取答案 END
 
 input('请按任意键退出...')
-print('-----END-----')
 # print(len(url.json()["data"]["notify"]["attach"]["subjects"]))
 # print(url.json()["data"]["notify"]["attach"]["subjects"][11]["details"][2]["right"])
