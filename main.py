@@ -20,7 +20,7 @@ headers = {
 }
 
 win.title('班级小管家学霸版v1.1.0')
-win.iconbitmap('logo.ico')
+# win.iconbitmap('logo.ico')
 # win.geometry('759x484')
 try:
     _id = bjxgj.get_id(openid=openid, headers=headers)[0]
