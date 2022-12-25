@@ -4,14 +4,12 @@
 # 正如你所见 这是一个敷衍的注释
 # 如果是妹子的话，不妨加个微信哟~
 # @WECHAT TUBUG_CN
-
-
-import tkinter as tk
-from tkinter import ttk, INSERT, Text
+import sys
+from tkinter import ttk, INSERT, Text, messagebox as tk, Tk, Button
 import random
 import bjxgj
 
-win = tk.Tk()
+win = Tk()
 
 openid = bjxgj.read_config()['openid']
 
@@ -21,9 +19,14 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"
 }
 
-win.title('班级小管家学霸版v1.0.0')
+win.title('班级小管家学霸版v1.1.0')
+win.iconbitmap('logo.ico')
 # win.geometry('759x484')
-_id = bjxgj.get_id(openid=openid, headers=headers)[0]
+try:
+    _id = bjxgj.get_id(openid=openid, headers=headers)[0]
+except KeyError:
+    tk.showerror(title='ERROR', message='请检查config.ini')
+    sys.exit(0)
 cid = bjxgj.get_id(openid=openid, headers=headers)[1]
 member_id = bjxgj.get_id(openid=openid, headers=headers)[2]
 
@@ -49,11 +52,13 @@ def hw_list_():
     get_answer = bjxgj.get_answer(cid=cid, member_id=member_id, homework_id=homework_id, headers=headers)
     data = bjxgj.homework_photo(headers=headers, homework_id=homework_id).json()['data']
     if get_answer.json()['data']['notify']['feedback_type'] == 24:
+        text.delete(1.0, "end")
         data = bjxgj.homework_photo(headers=headers, homework_id=homework_id).json()['data']
         num = len(bjxgj.homework_photo(headers=headers, homework_id=homework_id).json()['data'])
         chooses = random.randint(1, num)
         for photo_num in range(len(data[int(chooses) - 1]['feedback_photo'])):
-            text.insert(INSERT, 'https://img.banjixiaoguanjia.com/' + data[int(chooses) - 1]['feedback_photo'][photo_num]+'\n')
+            text.insert(INSERT, 'https://img.banjixiaoguanjia.com/' + data[int(chooses) - 1]['feedback_photo'][
+                photo_num] + '\n')
             # print('https://img.banjixiaoguanjia.com/' + data[int(chooses) - 1]['feedback_photo'][photo_num])
     elif get_answer.json()['data']['notify']['feedback_type'] == -1:
         text.delete(1.0, "end")
@@ -69,6 +74,7 @@ def hw_list_():
                 who_homework = 1
                 for photo_list in range(
                         len(data[int(who_homework) - 1]['attach']['subjects'][i]['answers'])):
+                    text.insert(INSERT, '第' + str(i + 1) + '题是大题，看链接！\n')
                     text.insert(INSERT, 'https://img.banjixiaoguanjia.com/' +
                                 data[int(who_homework) - 1]['attach']['subjects'][i]['answers'][
                                     photo_list] + '\n')
@@ -76,16 +82,19 @@ def hw_list_():
                     #       data[int(who_homework) - 1]['attach']['subjects'][i]['answers'][
                     #           photo_list])
                 # print(steal_homework.json()['data'][int(who_homework)-1]['attach']['subjects'][i]['answers'])
-                text.insert(INSERT, '第' + str(i + 1) + '题是大题，看链接！')
     print(homework_id)
 
 
-def clean():
-    text.delete(1.0, "end")
+def about():
+    tk.showinfo(title='关于我...', message='小管家学霸版\n版本：v1.1.0\n\nCopyright © 2022-2022 TUBUG.\nAll rights reserved')
 
 
-button = tk.Button(win, text='确认', command=hw_list_).grid(row=1, column=3)
-about = tk.Button(win, text='清空', command=clean).grid(row=3, column=1, padx=5, pady=5)
-exit_ = tk.Button(win, text='退出').grid(row=3, column=3, padx=5, pady=5)
+def _exit():
+    sys.exit(1)
+
+
+button = Button(win, text='确认', command=hw_list_).grid(row=1, column=3)
+about = Button(win, text='关于', command=about).grid(row=3, column=1, padx=5, pady=5)
+exit_ = Button(win, text='退出', command=_exit).grid(row=3, column=3, padx=5, pady=5)
 
 win.mainloop()
