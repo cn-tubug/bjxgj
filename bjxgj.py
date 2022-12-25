@@ -3,6 +3,15 @@
 """
 
 
+# 检查配置文件是否存在
+def check_config():
+    import os
+    if not os.path.exists('config.ini'):
+        with open('./config.ini', 'w') as file:
+            file.write('[User]\nopenid=xxx\nuserid=1')
+        file.close()
+
+
 # 读取配置文件
 def read_config(file='config.ini'):
     import configparser

@@ -10,7 +10,7 @@ import random
 import bjxgj
 
 win = Tk()
-
+bjxgj.check_config()
 openid = bjxgj.read_config()['openid']
 
 headers = {
